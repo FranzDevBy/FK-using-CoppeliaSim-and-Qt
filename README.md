@@ -1,1 +1,1 @@
-# Forward Kinematics for ABB IRB 140 using CoppeliaSim and Qt in CoppeliaSim
+# Forward Kinematics for ABB IRB 140 using CoppeliaSim and Qt
