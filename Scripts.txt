@@ -1,0 +1,75 @@
+function sysCall_init()
+    simJoints={0,0,0,0,0,0}
+    for i=1,6,1 do
+        simJoints[i]=sim.getObjectHandle('IRB140_joint'..i)
+    end
+    xml = '<ui title="Forward Kinematics" closeable="true" on-close="closeEventHandler" resizable="false">'..[[
+    <label text="Forward Kinematics for ABB IRB 140 using CoppeliaSim and Qt"/>
+    <group layout="hbox">
+    <label text="J1" id="11" />
+    <hslider id="21" minimum="-500" maximum="500" on-change="sliderChange" />
+    <edit value="0" id="31" on-editing-finished="jointEntry" />
+    </group>
+    <group layout="hbox">
+    <label text="J2" id="12"/>
+    <hslider id="22" minimum="-500" maximum="500" on-change="sliderChange" />
+    <edit value="0" id="32" on-editing-finished="jointEntry" />
+    </group>
+    <group layout="hbox">
+    <label text="J3" id="13"/>
+    <hslider id="23" minimum="-500" maximum="500" on-change="sliderChange" />
+    <edit value="0" id="33" on-editing-finished="jointEntry" />
+    </group>
+    <group layout="hbox">
+    <label text="J4" id="14"/>
+    <hslider id="24" minimum="-500" maximum="500" on-change="sliderChange" />
+    <edit value="0" id="34" on-editing-finished="jointEntry" />
+    </group>
+    <group layout="hbox">
+    <label text="J5" id="15"/>
+    <hslider id="25" minimum="-500" maximum="500" on-change="sliderChange" />
+    <edit value="0" id="35" on-editing-finished="jointEntry" />
+    </group>
+    <group layout="hbox">
+    <label text="J6" id="16"/>
+    <hslider id="26" minimum="-500" maximum="500" on-change="sliderChange" />
+    <edit value="0" id="36" on-editing-finished="jointEntry" />
+    </group>
+    </ui>
+    ]]
+    ui=simUI.create(xml)
+end
+
+function sliderChange(ui,id,newVal)
+   for i=1,6,1 do
+	  if (id==20+i) then
+         simUI.setLabelText(ui,10+i,string.format('J' ..i))
+         simUI.setEditValue(ui,30+i,string.format(newVal))
+         sim.setJointPosition(simJoints[i],newVal*math.pi/180)
+		 break
+	  end
+   end
+end
+
+function jointEntry(ui,id,newVal)
+   if (tonumber(newVal)==nil) then
+	  print("Error: could not convert number")
+	  return
+   end
+   for i=1,6,1 do
+	  if (id==30+i) then
+		 simUI.setLabelText(ui,10+i,string.format('J'..i))
+         simUI.setEditValue(ui,30+i,string.format(newVal))         
+         sim.setJointPosition(simJoints[i],newVal*math.pi/180)
+		 break
+	  end
+   end
+end
+
+function sysCall_cleanup()
+simUI.destroy(ui)    
+end
+
+function closeEventHandler()
+simUI.hide(ui)
+end
