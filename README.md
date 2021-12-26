@@ -1,1 +1,1 @@
-# FK-using-CoppeliaSim-and-Qt
+# Forward Kinematics for ABB IRB 140 using CoppeliaSim and Qt
